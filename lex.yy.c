@@ -436,8 +436,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "Little_lexer.l"
-#line 2 "Little_lexer.l"
+#line 1 "./little_lexer.l"
+#line 2 "./little_lexer.l"
     #include<stdio.h>
     #include<stdlib.h>
     int nDigitNumber=0;
@@ -659,7 +659,7 @@ YY_DECL
 		}
 
 	{
-#line 7 "Little_lexer.l"
+#line 7 "./little_lexer.l"
 
 #line 665 "lex.yy.c"
 
@@ -720,12 +720,12 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 8 "Little_lexer.l"
+#line 8 "./little_lexer.l"
 {nDigitNumber = nDigitNumber+1;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "Little_lexer.l"
+#line 9 "./little_lexer.l"
 ECHO;
 	YY_BREAK
 #line 732 "lex.yy.c"
@@ -1733,7 +1733,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 9 "Little_lexer.l"
+#line 9 "./little_lexer.l"
 
 int main()
 {

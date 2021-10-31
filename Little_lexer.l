@@ -1,7 +1,6 @@
 %{
     #include<stdio.h>
     #include<stdlib.h>
-    #include<iostream>
     int nDigitNumber=0;
 %}
 DIGIT [0-9]

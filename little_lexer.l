@@ -12,7 +12,7 @@
 FLOAT [-]?[0-9]+(\.[0-9]+)?
 TYPEID Int|Float|String|Bool|Void
 KEYWORD fprintf|while|aafor|if|else|continue|break|return
-SYMBLE "%"|"~"|"^"|"-"|"*"|"/"|"+"|"-"|";"|":="|"|"|"&"|"{"|"}"|"("|")"|"<"|">"|"%f"|"%s"|"%lld"|"&"|"||"|"&&"
+SYMBLE "%"|"~"|"^"|"-"|"*"|"/"|"+"|"-"|";"|":="|"|"|"&"|"{"|"}"|"("|")"|"<"|">"|"<="|">="|"=="|"%f"|"<="|">="|"=="|"%s"|"%lld"|"&"|"||"|"&&"
 FUNC func(" ")+[a-z][a-zA-Z_0-9]*
 OBJECTED [a-z][a-zA-Z_0-9]*
 SPECIAL ,|\"
@@ -27,23 +27,27 @@ SPECIAL ,|\"
     }
 
 ^{TYPEID}|{KEYWORD}|{FLOAT}|{SYMBLE}|{OBJECTED}|{SPECIAL} {
-    nWord++;
+    //防止匹配到的内容放在首部，前面无空格，出现单词数目不增加的情况
+       nWord++;
     REJECT;
 }
 
 [ ]+$ {
+    //处理掉句末和#前的空格
+    
     nRow++;
-    count++;
+    count=count+yyleng;
     }
 
  [ ]+ {
+     //出现空格，而且后面有内容，则字数加1
     count=count+yyleng;
-    nWord++;
+       nWord++;
 }
 
 
 {SPECIAL} {
-    //啥都不做
+    //，和“直接忽略，啥都不做
     count=yyleng+count;
 }
 
@@ -71,18 +75,30 @@ SPECIAL ,|\"
 
 {FUNC} {
     printf("\n#%d %s",nRow,yytext);
-    nWord++;
+       nWord++;
     count=yyleng+count;
 }
 
+
+{FLOAT} {
+    printf("\n#%d Const %s",nRow,yytext);
+    count=yyleng+count;
+}
+
+
 "#" {
+    //处理注释情况，默认第一行注释则认为是标题进行显示，其他注释直接不显示
+    //注释中的字符数和单词数同样统计
+    
     char c;
     count++;
     if(nRow==0)
+    {
+        nWord++;
         printf("#name");
+    }
     c=input();
     while(c!='\n'){
-
         if(nRow==0)
             putchar(c);
         if(c==' ')
@@ -95,7 +111,7 @@ SPECIAL ,|\"
             }
             if(c!='\n')
             {
-                nWord++; 
+                   nWord++;
                 count++;
             }
         }
@@ -105,14 +121,8 @@ SPECIAL ,|\"
             c=input();
         }
     }
-    nWord++;
     nRow++;
     count++;
-}
-
-{FLOAT} {
-    printf("\n#%d Const %s",nRow,yytext);
-    count=yyleng+count;
 }
 
 

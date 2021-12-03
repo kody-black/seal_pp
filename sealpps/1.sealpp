@@ -3,5 +3,6 @@
 Void func main(){
     Float x := 6.0;
     Bool y := 1;
+    Float float_Float :=2;
     return;
 }

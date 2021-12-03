@@ -9,7 +9,8 @@
 
 
 /*定义（Definitions）*/
-FLOAT [-]?[0-9]+(\.[0-9]+)?
+NUM [0-9]+(\.[0-9]+)?
+/*NUM [-]?[0-9]+(\.[0-9]+)?*/
 TYPEID Int|Float|String|Bool|Void
 KEYWORD fprintf|while|aafor|if|else|continue|break|return
 SYMBLE "%"|"~"|"^"|"-"|"*"|"/"|"+"|"-"|";"|":="|"|"|"&"|"{"|"}"|"("|")"|"<"|">"|"<="|">="|"=="|"%f"|"<="|">="|"=="|"%s"|"%lld"|"&"|"||"|"&&"
@@ -26,9 +27,9 @@ SPECIAL ,|\"
     count++;
     }
 
-^{TYPEID}|{KEYWORD}|{FLOAT}|{SYMBLE}|{OBJECTED}|{SPECIAL} {
+^{TYPEID}|{KEYWORD}|{NUM}|{SYMBLE}|{OBJECTED}|{SPECIAL}|# {
     //防止匹配到的内容放在首部，前面无空格，出现单词数目不增加的情况
-       nWord++;
+    nWord++;
     REJECT;
 }
 
@@ -80,7 +81,7 @@ SPECIAL ,|\"
 }
 
 
-{FLOAT} {
+{NUM} {
     printf("\n#%d Const %s",nRow,yytext);
     count=yyleng+count;
 }
@@ -93,10 +94,8 @@ SPECIAL ,|\"
     char c;
     count++;
     if(nRow==0)
-    {
-        nWord++;
         printf("#name");
-    }
+        
     c=input();
     while(c!='\n'){
         if(nRow==0)

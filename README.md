@@ -8,4 +8,4 @@
 
 # Project in compilation principle of IS_SJTU 2021
 
-# 理性参考，提高自己
+#### 请勿盲目参考，欢迎批评指正
